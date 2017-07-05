@@ -1,0 +1,27 @@
+---
+
+# Travis configuration
+
+dist: 'trusty'
+sudo: 'required'
+
+services:
+  - 'docker'
+
+language: 'python'
+
+env:
+  matrix:
+    - TOXENV='py27-ansible20'
+    - TOXENV='py27-ansible21'
+    - TOXENV='py27-ansible22'
+    - TOXENV='py27-ansible23'
+
+install:
+  - 'pip install tox-travis'
+
+script:
+  - 'tox -e "${TOXENV}"'
+
+notifications:
+  webhooks: 'https://galaxy.ansible.com/api/v1/notifications/'
