@@ -1,0 +1,9 @@
+---
+
+# Main tasks file for zeppelin role
+
+- name: 'INIT | Manage variables to use for our target'
+  include: "{{ role_path }}/tasks/manage_variables.yml"
+  tags:
+    - 'role::zeppelin'
+    - 'role::zeppelin::init'
