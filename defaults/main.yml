@@ -1,3 +1,30 @@
 ---
 
 # Defaults vars file for zeppelin role
+
+# Installation variables
+#------------------------------------------------------------------------------
+
+# Package variables
+zeppelin_version: '0.7.2'
+zeppelin_package: "zeppelin-{{ zeppelin_version }}-bin-all"
+zeppelin_package_filename: "{{ zeppelin_package }}.tgz"
+zeppelin_download_url: "http://mirrors.standaloneinstaller.com/apache/zeppelin/zeppelin-{{ zeppelin_version }}/{{ zeppelin_package_filename }}"
+
+# Installation folder
+zeppelin_root_folder:
+  path: "{{ zeppelin_user.home | default('/var/lib/zeppelin') }}"
+  user: "{{ zeppelin_user.name }}"
+  group: "{{ zeppelin_group.name }}"
+  mode: '0550'
+
+# User management
+zeppelin_group:
+  name: 'zeppelin'
+zeppelin_user:
+  name: 'zeppelin'
+  home: '/var/lib/zeppelin'
+
+
+# Configuration
+#------------------------------------------------------------------------------
