@@ -44,12 +44,12 @@ _zeppelin_default_config:
   anonymous:
     allowed: True
   dep:
-    localRepo: 'local-repo'
+    localrepo: 'local-repo'
   interpreter:
     connect:
       timeout: 30000
     dep:
-      mvmRepo: 'http://repo1.maven.org/maven2/'
+      mvnRepo: 'http://repo1.maven.org/maven2/'
     dir: 'interpreter'
     group:
       order:
@@ -163,7 +163,11 @@ _zeppelin_default_config:
           - 'org.apache.zeppelin.notebook.repo.GitNotebookRepo'
           - 'org.apache.zeppelin.notebook.repo.zeppelinhub.ZeppelinHubRepo'
   ssl:
-    auth: False
+    client:
+      auth: False
+    key:
+      manager:
+        password: 'change me'
     keystore:
       path: 'keystore'
       password: 'change me'
