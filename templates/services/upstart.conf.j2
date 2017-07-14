@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+description "zeppelin"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on shutdown
+
+respawn
+respawn limit 7 5
+
+chdir {{ zeppelin_root_folder.path }}/current
+exec bin/zeppelin-daemon.sh upstart

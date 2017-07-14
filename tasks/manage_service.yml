@@ -1,0 +1,40 @@
+---
+
+# Zeppelin service management
+
+- name: 'SERVICE | UPSTART | Manage service configuration file'
+  template:
+    src: "{{ role_path }}/templates/service/upstart.conf.j2"
+    dest: '/etc/init/zeppelin.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: 'check_zeppelin_service_upstart_managed'
+  when:
+    - "ansible_distribution | lower == 'ubuntu'"
+    - "ansible_distribution_version == '14.04'"
+
+
+- name: 'SERVICE | INIT.D | Manage service configuration file'
+  template:
+    src: "{{ role_path }}/templates/service/init.d.j2"
+    dest: '/etc/init.d/zeppelin'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  register: 'check_zeppelin_service_initd_managed'
+  when:
+    - "ansible_distribution | lower == 'debian'"
+    - "ansible_distribution_version == 8"
+
+
+- name: 'SERVICE | SYSTEMD | Manage service configuration file'
+  template:
+    src: "{{ role_path }}/templates/service/systemd.j2"
+    dest: '/etc/init.d/zeppelin'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  when:
+    - "check_zeppelin_service_upstart_managed.skipped"
+    - "check_zeppelin_service_initd_managed.skipped"

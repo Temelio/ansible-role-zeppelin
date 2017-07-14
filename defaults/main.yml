@@ -28,3 +28,153 @@ zeppelin_user:
 
 # Configuration
 #------------------------------------------------------------------------------
+
+# Storage management
+# Possible_choices:
+#   * s3
+#   * azure
+#   * local_fs
+#   * zeppelin_hub
+#   * local_git
+zeppelin_storage: 'local_git'
+
+zeppelin_config: "{{ _zeppelin_default_config }}"
+
+_zeppelin_default_config:
+  anonymous:
+    allowed: True
+  dep:
+    localRepo: 'local-repo'
+  interpreter:
+    connect:
+      timeout: 30000
+    dep:
+      mvmRepo: 'http://repo1.maven.org/maven2/'
+    dir: 'interpreter'
+    group:
+      order:
+        - 'spark'
+        - 'md'
+        - 'angular'
+        - 'sh'
+        - 'livy'
+        - 'alluxio'
+        - 'file'
+        - 'psql'
+        - 'flink'
+        - 'python'
+        - 'ignite'
+        - 'lens'
+        - 'cassandra'
+        - 'geode'
+        - 'kylin'
+        - 'elasticsearch'
+        - 'scalding'
+        - 'jdbc'
+        - 'hbase'
+        - 'bigquery'
+        - 'beam'
+    localRepo: 'local-repo'
+    output:
+      limit: 102400
+  interpreters:
+    - 'org.apache.zeppelin.spark.SparkInterpreter'
+    - 'org.apache.zeppelin.spark.PySparkInterpreter'
+    - 'org.apache.zeppelin.rinterpreter.RRepl'
+    - 'org.apache.zeppelin.rinterpreter.KnitR'
+    - 'org.apache.zeppelin.spark.SparkRInterpreter'
+    - 'org.apache.zeppelin.spark.SparkSqlInterpreter'
+    - 'org.apache.zeppelin.spark.DepInterpreter'
+    - 'org.apache.zeppelin.markdown.Markdown'
+    - 'org.apache.zeppelin.angular.AngularInterpreter'
+    - 'org.apache.zeppelin.shell.ShellInterpreter'
+    - 'org.apache.zeppelin.file.HDFSFileInterpreter'
+    - 'org.apache.zeppelin.flink.FlinkInterpreter'
+    - 'org.apache.zeppelin.python.PythonInterpreter'
+    - 'org.apache.zeppelin.python.PythonInterpreterPandasSql'
+    - 'org.apache.zeppelin.python.PythonCondaInterpreter'
+    - 'org.apache.zeppelin.python.PythonDockerInterpreter'
+    - 'org.apache.zeppelin.lens.LensInterpreter'
+    - 'org.apache.zeppelin.ignite.IgniteInterpreter'
+    - 'org.apache.zeppelin.ignite.IgniteSqlInterpreter'
+    - 'org.apache.zeppelin.cassandra.CassandraInterpreter'
+    - 'org.apache.zeppelin.geode.GeodeOqlInterpreter'
+    - 'org.apache.zeppelin.postgresql.PostgreSqlInterpreter'
+    - 'org.apache.zeppelin.jdbc.JDBCInterpreter'
+    - 'org.apache.zeppelin.kylin.KylinInterpreter'
+    - 'org.apache.zeppelin.elasticsearch.ElasticsearchInterpreter'
+    - 'org.apache.zeppelin.scalding.ScaldingInterpreter'
+    - 'org.apache.zeppelin.alluxio.AlluxioInterpreter'
+    - 'org.apache.zeppelin.hbase.HbaseInterpreter'
+    - 'org.apache.zeppelin.livy.LivySparkInterpreter'
+    - 'org.apache.zeppelin.livy.LivyPySparkInterpreter'
+    - 'org.apache.zeppelin.livy.LivyPySpark3Interpreter'
+    - 'org.apache.zeppelin.livy.LivySparkRInterpreter'
+    - 'org.apache.zeppelin.livy.LivySparkSQLInterpreter'
+    - 'org.apache.zeppelin.bigquery.BigQueryInterpreter'
+    - 'org.apache.zeppelin.beam.BeamInterpreter'
+    - 'org.apache.zeppelin.pig.PigInterpreter'
+    - 'org.apache.zeppelin.pig.PigQueryInterpreter'
+    - 'org.apache.zeppelin.scio.ScioInterpreter'
+  helium:
+    npm:
+      registry: 'http://registry.npmjs.org/'
+  server:
+    addr: '0.0.0.0'
+    allowed:
+      origins: '*'
+    port: 8080
+    ssl:
+      port: 8443
+    context:
+      path: '/'
+  war:
+    tempdir: 'webapps'
+  notebook:
+    dir: 'notebook'
+    homescreen:
+      id: ''
+      hide: False
+    one:
+      way:
+        sync: False
+    public: True
+    storage:
+      azure:
+        connection_string: 'DefaultEndpointsProtocol=https;AccountName=<accountName>;AccountKey=<accountKey>'
+        share: 'zeppelin'
+        user: 'user'
+        storage_class: 'org.apache.zeppelin.notebook.repo.AzureNotebookRepo'
+      local_fs:
+        storage_class: 'org.apache.zeppelin.notebook.repo.VFSNotebookRepo'
+      local_git:
+        storage_class: 'org.apache.zeppelin.notebook.repo.GitNotebookRepo'
+      s3:
+        user: 'user'
+        bucket: 'zeppelin'
+        endpoint: 's3.amazonaws.com'
+        kmsKeyID: 'AWS-KMS-Key-UUID'
+        kmsKeyRegion: 'us-east-1'
+        encryptionMaterialsProvider: None
+        encrypt_data: False
+        storage_class: 'org.apache.zeppelin.notebook.repo.S3NotebookRepo'
+      zeppelin_hub:
+        storage_class:
+          - 'org.apache.zeppelin.notebook.repo.GitNotebookRepo'
+          - 'org.apache.zeppelin.notebook.repo.zeppelinhub.ZeppelinHubRepo'
+  ssl:
+    auth: False
+    keystore:
+      path: 'keystore'
+      password: 'change me'
+      type: 'JKS'
+    truststore:
+      path: 'truststore'
+      password: 'change me'
+      type: 'JKS'
+    use_ssl: False
+  websocket:
+    max:
+      text:
+        message:
+          size: 1024000

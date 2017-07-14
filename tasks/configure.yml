@@ -1,0 +1,11 @@
+---
+
+# Zeppelin configuration tasks
+
+- name: 'CONFIG | Manage zeppelin-site.xml configuration file'
+  template:
+    src: "{{ role_path }}/templates/zeppelin-site.xml.j2"
+    dest: "{{ zeppelin_root_folder.path }}/{{ zeppelin_package }}/conf/zeppelin-site.xml"
+    owner: "{{ zeppelin_user.name }}"
+    group: "{{ zeppelin_group.name }}"
+    mode: '0400'
