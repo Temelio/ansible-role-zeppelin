@@ -6,7 +6,8 @@ ansible:
   raw_env_vars:
     ANSIBLE_NOCOWS: 1
   group_vars:
-    all: {}
+    all:
+      zeppelin_shiro_enabled: True
 dependency:
   name: 'galaxy'
   requirements_file: 'tests/requirements.yml'
@@ -44,8 +45,8 @@ vagrant:
     - name: 'virtualbox'
       type: 'virtualbox'
       options:
-        memory: 512
-        cpus: 1
+        memory: 8192
+        cpus: 2
   instances:
     - name: 'zeppelin-vagrant'
       interfaces:

@@ -5,7 +5,32 @@
 - name: 'CONFIG | Manage zeppelin-site.xml configuration file'
   template:
     src: "{{ role_path }}/templates/zeppelin-site.xml.j2"
-    dest: "{{ zeppelin_root_folder.path }}/{{ zeppelin_package }}/conf/zeppelin-site.xml"
+    dest: "{{ zeppelin_root_dir.path }}/{{ zeppelin_package }}/conf/zeppelin-site.xml"
     owner: "{{ zeppelin_user.name }}"
     group: "{{ zeppelin_group.name }}"
     mode: '0400'
+  notify:
+    - 'HANDLER | Restart zeppelin'
+
+
+- name: 'CONFIG | Manage zeppelin-env.sh configuration file'
+  template:
+    src: "{{ role_path }}/templates/zeppelin-env.sh.j2"
+    dest: "{{ zeppelin_root_dir.path }}/{{ zeppelin_package }}/conf/zeppelin-env.sh"
+    owner: "{{ zeppelin_user.name }}"
+    group: "{{ zeppelin_group.name }}"
+    mode: '0500'
+  notify:
+    - 'HANDLER | Restart zeppelin'
+
+
+- name: 'CONFIG | Manage shiro.ini configuration file'
+  template:
+    src: "{{ role_path }}/templates/shiro.ini.j2"
+    dest: "{{ zeppelin_root_dir.path }}/{{ zeppelin_package }}/conf/shiro.ini"
+    owner: "{{ zeppelin_user.name }}"
+    group: "{{ zeppelin_group.name }}"
+    mode: '0400'
+  notify:
+    - 'HANDLER | Restart zeppelin'
+  when: "zeppelin_shiro_enabled | bool"

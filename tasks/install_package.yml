@@ -2,18 +2,36 @@
 
 # Package installation management
 
-- name: 'INSTALL | Ensure Zeppelin root folder exists'
+- name: 'INSTALL | Ensure Zeppelin root dir exists'
   file:
-    path: "{{ zeppelin_root_folder.path }}"
-    owner: "{{ zeppelin_root_folder.user }}"
-    group: "{{ zeppelin_root_folder.group }}"
-    mode: "{{ zeppelin_root_folder.mode }}"
+    path: "{{ zeppelin_root_dir.path }}"
+    owner: "{{ zeppelin_root_dir.user }}"
+    group: "{{ zeppelin_root_dir.group }}"
+    mode: "{{ zeppelin_root_dir.mode }}"
+    state: 'directory'
+
+
+- name: 'INSTALL | Ensure Zeppelin log dir exists'
+  file:
+    path: "{{ zeppelin_log_dir.path }}"
+    owner: "{{ zeppelin_log_dir.user }}"
+    group: "{{ zeppelin_log_dir.group }}"
+    mode: "{{ zeppelin_log_dir.mode }}"
+    state: 'directory'
+
+
+- name: 'INSTALL | Ensure Zeppelin pid dir exists'
+  file:
+    path: "{{ zeppelin_pid_dir.path }}"
+    owner: "{{ zeppelin_pid_dir.user }}"
+    group: "{{ zeppelin_pid_dir.group }}"
+    mode: "{{ zeppelin_pid_dir.mode }}"
     state: 'directory'
 
 
 - name: 'INSTALL | Check if needed version is already installed'
   stat:
-    path: "{{ zeppelin_root_folder.path }}/{{ zeppelin_package }}"
+    path: "{{ zeppelin_root_dir.path }}/{{ zeppelin_package }}"
   register: 'check_zeppelin_install_path'
 
 
@@ -27,17 +45,19 @@
 - name: 'INSTALL | Extract Zeppelin into the root directory'
   unarchive:
     src: "/tmp/{{ zeppelin_package_filename }}"
-    dest: "{{ zeppelin_root_folder.path }}/"
+    dest: "{{ zeppelin_root_dir.path }}/"
     copy: no
     owner: "{{ zeppelin_user.name }}"
     group: "{{ zeppelin_group.name }}"
+  notify: 'HANDLER | Restart zeppelin'
   when: "check_zeppelin_install_path.stat.exists == False"
 
 
 - name: 'INSTALL | Ensure current symlink targets the needed version'
   file:
-    src: "{{ zeppelin_root_folder.path }}/{{ zeppelin_package }}"
-    dest: "{{ zeppelin_root_folder.path }}/current"
+    src: "{{ zeppelin_root_dir.path }}/{{ zeppelin_package }}"
+    dest: "{{ zeppelin_root_dir.path }}/current"
     owner: "{{ zeppelin_user.name }}"
     group: "{{ zeppelin_group.name }}"
     state: 'link'
+  notify: 'HANDLER | Restart zeppelin'

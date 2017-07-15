@@ -12,11 +12,25 @@ zeppelin_package_filename: "{{ zeppelin_package }}.tgz"
 zeppelin_download_url: "http://mirrors.standaloneinstaller.com/apache/zeppelin/zeppelin-{{ zeppelin_version }}/{{ zeppelin_package_filename }}"
 
 # Installation folder
-zeppelin_root_folder:
+zeppelin_root_dir:
   path: "{{ zeppelin_user.home | default('/var/lib/zeppelin') }}"
   user: "{{ zeppelin_user.name }}"
   group: "{{ zeppelin_group.name }}"
-  mode: '0550'
+  mode: '0750'
+
+# Log folder
+zeppelin_log_dir:
+  path: '/var/log/zeppelin'
+  user: "{{ zeppelin_user.name }}"
+  group: "{{ zeppelin_group.name }}"
+  mode: '0750'
+
+# PID folder
+zeppelin_pid_dir:
+  path: '/var/run/zeppelin'
+  user: "{{ zeppelin_user.name }}"
+  group: "{{ zeppelin_group.name }}"
+  mode: '0750'
 
 # User management
 zeppelin_group:
@@ -26,7 +40,65 @@ zeppelin_user:
   home: '/var/lib/zeppelin'
 
 
-# Configuration
+# Service management
+#------------------------------------------------------------------------------
+
+zeppelin_service_description: 'Apache Zeppelin'
+zeppelin_service_name: 'zeppelin'
+zeppelin_service_state: 'started'
+zeppelin_service_enabled: True
+
+# Systemd
+zeppelin_service_systemd:
+  restart: 'on-failure'
+  restart_sec: 1
+  wanted_by: 'multi-user.target'
+
+
+# Configuration - zeppelin-env.sh
+#------------------------------------------------------------------------------
+
+zeppelin_environment_items:
+  - name: 'ZEPPELIN_LOG_DIR'
+    value: "{{ zeppelin_log_dir.path }}"
+  - name: 'ZEPPELIN_PID_DIR'
+    value: "{{ zeppelin_pid_dir.path }}"
+
+
+# Configuration - shiro.ini
+#------------------------------------------------------------------------------
+
+# Possible values for auth_realm:
+#   - active_directory
+#   - ldap
+#   - pam
+#   - zeppelin_hub
+zeppelin_shiro: "{{ _zeppelin_shiro }}"
+zeppelin_shiro_enabled: False
+
+_zeppelin_shiro:
+  auth_realm: None
+  global_session_timeout: 86400000
+  realms:
+    active_directory:
+      options: []
+    ldap:
+      options: []
+    pam:
+      options:
+    service: 'sshd'
+    zeppelin_hub:
+      options:
+        url: 'https://www.zeppelinhub.com'
+  roles: []
+  user_caching: False
+  users: []
+  urls:
+    - url: '/**'
+      permissions: 'authc'
+
+
+# Configuration - zeppelin-site.xml
 #------------------------------------------------------------------------------
 
 # Storage management

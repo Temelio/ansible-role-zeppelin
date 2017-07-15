@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 
-description "zeppelin"
+description "{{ zeppelin_service_description }}"
 
 start on (local-filesystems and net-device-up IFACE!=lo)
 stop on shutdown
@@ -8,5 +8,11 @@ stop on shutdown
 respawn
 respawn limit 7 5
 
-chdir {{ zeppelin_root_folder.path }}/current
+# Ensure pid dir exists
+mkdir -p {{ zeppelin_pid_dir.path }}
+chown {{ zeppelin_user.name }}:{{ zeppelin_group.name }} {{ zeppelin_pid_dir.path }}
+chmod {{ zeppelin_pid_dir.mode }} {{ zeppelin_pid_dir.path }}
+
+# Launch zeppelin
+chdir {{ zeppelin_root_dir.path }}/current
 exec bin/zeppelin-daemon.sh upstart

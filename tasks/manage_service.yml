@@ -4,12 +4,14 @@
 
 - name: 'SERVICE | UPSTART | Manage service configuration file'
   template:
-    src: "{{ role_path }}/templates/service/upstart.conf.j2"
+    src: "{{ role_path }}/templates/services/upstart.conf.j2"
     dest: '/etc/init/zeppelin.conf'
     owner: 'root'
     group: 'root'
     mode: '0644'
   register: 'check_zeppelin_service_upstart_managed'
+  notify:
+    - 'HANDLER | Restart zeppelin'
   when:
     - "ansible_distribution | lower == 'ubuntu'"
     - "ansible_distribution_version == '14.04'"
@@ -17,12 +19,14 @@
 
 - name: 'SERVICE | INIT.D | Manage service configuration file'
   template:
-    src: "{{ role_path }}/templates/service/init.d.j2"
+    src: "{{ role_path }}/templates/services/init.d.j2"
     dest: '/etc/init.d/zeppelin'
     owner: 'root'
     group: 'root'
     mode: '0755'
   register: 'check_zeppelin_service_initd_managed'
+  notify:
+    - 'HANDLER | Restart zeppelin'
   when:
     - "ansible_distribution | lower == 'debian'"
     - "ansible_distribution_version == 8"
@@ -30,11 +34,21 @@
 
 - name: 'SERVICE | SYSTEMD | Manage service configuration file'
   template:
-    src: "{{ role_path }}/templates/service/systemd.j2"
-    dest: '/etc/init.d/zeppelin'
+    src: "{{ role_path }}/templates/services/systemd.j2"
+    dest: '/etc/systemd/system/zeppelin.service'
     owner: 'root'
     group: 'root'
-    mode: '0755'
+    mode: '0644'
+  notify:
+    - 'HANDLER | Restart zeppelin'
   when:
-    - "check_zeppelin_service_upstart_managed.skipped"
-    - "check_zeppelin_service_initd_managed.skipped"
+    - "check_zeppelin_service_upstart_managed | skipped"
+    - "check_zeppelin_service_initd_managed | skipped"
+
+- name: 'SERVICE | Manage service state'
+  service:
+    name: "{{ zeppelin_service_name }}"
+    state: "{{ zeppelin_service_state }}"
+    enabled: "{{ zeppelin_service_enabled }}"
+  notify:
+    - 'HANDLER | Restart zeppelin'

@@ -7,6 +7,7 @@
   tags:
     - 'role::zeppelin'
     - 'role::zeppelin::init'
+    - 'role::zeppelin::config'
     - 'role::zeppelin::install'
 
 
