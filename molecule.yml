@@ -15,15 +15,13 @@ driver:
   name: 'docker'
 docker:
   containers:
-    - name: 'zeppelin-docker-jessie'
-      image: 'debian'
-      image_version: 'jessie'
     - name: 'zeppelin-docker-trusty'
       image: 'ubuntu'
       image_version: 'trusty'
     - name: 'zeppelin-docker-xenial'
-      image: 'ubuntu'
-      image_version: 'xenial'
+      image: 'infopen/ubuntu-xenial-ssh-py27'
+      image_version: '0.2.0'
+      privileged: True
 molecule:
   ignore_paths:
     - '.git'
