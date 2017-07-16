@@ -11,6 +11,7 @@ testinfra_hosts = AnsibleRunner('.molecule/ansible_inventory').get_hosts('all')
 
 
 @pytest.mark.parametrize('name, codenames', [
+    ('openjdk-7-jdk', ['trusty']),
     ('openjdk-8-jdk', ['xenial']),
 ])
 def test_packages(host, name, codenames):
