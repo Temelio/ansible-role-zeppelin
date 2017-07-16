@@ -10,13 +10,21 @@ from testinfra.utils.ansible_runner import AnsibleRunner
 testinfra_hosts = AnsibleRunner('.molecule/ansible_inventory').get_hosts('all')
 
 
-@pytest.mark.parametrize('name', [
-    ('openjdk-8-jdk'),
+@pytest.mark.parametrize('name, codenames', [
+    ('openjdk-8-jdk', ['xenial']),
 ])
-def test_packages(host, name):
+def test_packages(host, name, codenames):
     """
     Test installed packages
     """
+
+    if host.system_info.distribution not in ['debian', 'ubuntu']:
+        pytest.skip('{} ({}) distribution not managed'.format(
+            host.system_info.distribution, host.system_info.release))
+
+    if codenames and host.system_info.codename.lower() not in codenames:
+        pytest.skip('{} package not used with {} ({})'.format(
+            name, host.system_info.distribution, host.system_info.codename))
 
     assert host.package(name).is_installed
 
