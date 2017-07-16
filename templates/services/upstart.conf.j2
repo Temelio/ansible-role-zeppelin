@@ -9,9 +9,11 @@ respawn
 respawn limit 7 5
 
 # Ensure pid dir exists
-mkdir -p {{ zeppelin_pid_dir.path }}
-chown {{ zeppelin_user.name }}:{{ zeppelin_group.name }} {{ zeppelin_pid_dir.path }}
-chmod {{ zeppelin_pid_dir.mode }} {{ zeppelin_pid_dir.path }}
+pre-start script
+    mkdir -p {{ zeppelin_pid_dir.path }}
+    chown {{ zeppelin_user.name }}:{{ zeppelin_group.name }} {{ zeppelin_pid_dir.path }}
+    chmod {{ zeppelin_pid_dir.mode }} {{ zeppelin_pid_dir.path }}
+end script
 
 # Launch zeppelin
 chdir {{ zeppelin_root_dir.path }}/current
