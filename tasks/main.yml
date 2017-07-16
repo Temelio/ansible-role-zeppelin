@@ -1,0 +1,44 @@
+---
+
+# Main tasks file for zeppelin role
+
+- name: 'INIT | Manage variables to use for our target'
+  include: "{{ role_path }}/tasks/manage_variables.yml"
+  tags:
+    - 'role::zeppelin'
+    - 'role::zeppelin::init'
+    - 'role::zeppelin::config'
+    - 'role::zeppelin::install'
+
+
+- name: 'INSTALL | Manage user and group'
+  become: True
+  include: "{{ role_path }}/tasks/manage_user.yml"
+  tags:
+    - 'role::zeppelin'
+    - 'role::zeppelin::install'
+
+
+- name: 'INSTALL | Manage package install'
+  become: True
+  include: "{{ role_path }}/tasks/install_package.yml"
+  tags:
+    - 'role::zeppelin'
+    - 'role::zeppelin::install'
+
+
+- name: 'CONFIG | Manage Zeppelin configuration'
+  become: True
+  include: "{{ role_path }}/tasks/configure.yml"
+  tags:
+    - 'role::zeppelin'
+    - 'role::zeppelin::config'
+
+
+- name: 'SERVICE | Manage Zeppelin service'
+  become: True
+  include: "{{ role_path }}/tasks/manage_service.yml"
+  tags:
+    - 'role::zeppelin'
+    - 'role::zeppelin::config'
+    - 'role::zeppelin::install'

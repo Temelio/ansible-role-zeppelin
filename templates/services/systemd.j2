@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description={{ zeppelin_service_description }}
+
+[Service]
+User={{ zeppelin_user.name }}
+Group={{ zeppelin_group.name }}
+WorkingDirectory={{ zeppelin_root_dir.path }}/current
+
+ExecStartPre=/bin/mkdir -p {{ zeppelin_pid_dir.path }}
+ExecStartPre=/bin/chown {{ zeppelin_user.name }}:{{ zeppelin_group.name }} {{ zeppelin_pid_dir.path }}
+ExecStartPre=/bin/chmod {{ zeppelin_pid_dir.mode }} {{ zeppelin_pid_dir.path }}
+
+ExecStart={{ zeppelin_root_dir.path }}/current/bin/zeppelin-daemon.sh upstart
+Restart={{ zeppelin_service_systemd.restart }}
+RestartSec={{ zeppelin_service_systemd.restart_sec }}
+
+[Install]
+WantedBy={{zeppelin_service_systemd.wanted_by }}

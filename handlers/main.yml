@@ -1,0 +1,14 @@
+---
+
+# Handlers main file for zeppelin role
+
+- name: 'HANDLER | Restart zeppelin'
+  become: True
+  service:
+    name: "{{ zeppelin_service_name }}"
+    state: 'restarted'
+  when: "zeppelin_service_state != 'stopped'"
+  tags:
+    - 'role::zeppelin'
+    - 'role::zeppelin::config'
+    - 'role::zeppelin::install'

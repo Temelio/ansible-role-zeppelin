@@ -1,0 +1,18 @@
+---
+
+galaxy_info:
+  author: 'Alexandre Chaussier'
+  description: 'Ansible role to install and configure Apache Zeppelin'
+  company: 'Temelio (http://www.temelio.com)'
+  license: 'MIT'
+  min_ansible_version: '2.0'
+  github_branch: 'master'
+  platforms:
+    - name: 'Ubuntu'
+      versions:
+        - 'trusty'
+        - 'xenial'
+  galaxy_tags:
+    - 'web'
+    - 'data'
+dependencies: []
