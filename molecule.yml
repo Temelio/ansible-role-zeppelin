@@ -16,7 +16,7 @@ driver:
 docker:
   containers:
     - name: 'zeppelin-docker-trusty'
-      image: 'ubuntu'
+      image: 'ubuntu-upstart'
       image_version: 'trusty'
     - name: 'zeppelin-docker-xenial'
       image: 'infopen/ubuntu-xenial-ssh-py27'
