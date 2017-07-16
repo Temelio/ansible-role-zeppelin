@@ -6,22 +6,22 @@ ansible:
   raw_env_vars:
     ANSIBLE_NOCOWS: 1
   group_vars:
-    all: {}
+    all:
+      zeppelin_shiro_enabled: True
 dependency:
   name: 'galaxy'
+  requirements_file: 'tests/requirements.yml'
 driver:
   name: 'docker'
 docker:
   containers:
-    - name: 'zeppelin-docker-jessie'
-      image: 'debian'
-      image_version: 'jessie'
     - name: 'zeppelin-docker-trusty'
-      image: 'ubuntu'
+      image: 'ubuntu-upstart'
       image_version: 'trusty'
     - name: 'zeppelin-docker-xenial'
-      image: 'ubuntu'
-      image_version: 'xenial'
+      image: 'infopen/ubuntu-xenial-ssh-py27'
+      image_version: '0.2.0'
+      privileged: True
 molecule:
   ignore_paths:
     - '.git'
@@ -43,8 +43,8 @@ vagrant:
     - name: 'virtualbox'
       type: 'virtualbox'
       options:
-        memory: 512
-        cpus: 1
+        memory: 8192
+        cpus: 2
   instances:
     - name: 'zeppelin-vagrant'
       interfaces:

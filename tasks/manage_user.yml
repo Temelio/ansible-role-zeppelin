@@ -1,0 +1,18 @@
+---
+
+# Manage user and group
+
+- name: 'INSTALL | Ensure group exists'
+  group:
+    name: "{{ zeppelin_group.name }}"
+    gid: "{{ zeppelin_group.gid | default(omit) }}"
+    system: "{{ zeppelin_group.system | default(omit) }}"
+
+
+- name: 'INSTALL | Ensure user exists'
+  user:
+    name: "{{ zeppelin_user.name }}"
+    group: "{{ zeppelin_group.name }}"
+    home: "{{ zeppelin_user.home | default(omit) }}"
+    system: "{{ zeppelin_user.system | default(omit) }}"
+    uid: "{{ zeppelin_user.uid | default(omit) }}"

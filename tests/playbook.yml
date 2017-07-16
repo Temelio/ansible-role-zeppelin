@@ -18,6 +18,7 @@
 
 - hosts: 'all'
   roles:
+    - role: 'infOpen.openjdk-jdk'
     - role: "{{ role_name }}"
   vars:
     role_name: "{{ playbook_dir | basename }}"

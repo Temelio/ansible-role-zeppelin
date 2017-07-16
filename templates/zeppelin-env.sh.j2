@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# {{ ansible_managed }}
+
+{% for env_item in zeppelin_environment_items %}
+export {{ env_item.name }}={{ env_item.value }}
+{% endfor %}
