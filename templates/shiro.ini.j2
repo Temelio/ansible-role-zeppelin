@@ -23,7 +23,7 @@ activeDirectoryRealm.{{ option_item.name }} = "{{ option_item.value }}"
 # LDAP authentication
 ldapRealm = org.apache.zeppelin.realm.LdapGroupRealm
 {% for option_item in zeppelin_shiro.ldap_options %}
-activeDirectoryRealm.{{ option_item.name }} = "{{ option_item.value }}"
+ldapRealm.{{ option_item.name }} = "{{ option_item.value }}"
 {% endfor %}
 {% endif %}
 
