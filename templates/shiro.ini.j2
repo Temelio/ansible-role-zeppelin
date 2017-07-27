@@ -50,7 +50,7 @@ securityManager.cacheManager = {{ zeppelin_shiro.security_manager.cache_manager.
 securityManager.realms = {{ zeppelin_shiro.security_manager.realms }}
 {% endif %}
 securityManager.sessionManager = {{ zeppelin_shiro.security_manager.session_manager.class }}
-securityManager.sessionManager.globalSessionTimeout = {{ zeppelin_shiro.session_manager.global_session_timeout }}
+securityManager.sessionManager.globalSessionTimeout = {{ zeppelin_shiro.security_manager.session_manager.global_session_timeout }}
 shiro.loginUrl = /api/login
 
 
