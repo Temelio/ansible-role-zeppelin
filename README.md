@@ -129,7 +129,7 @@ _zeppelin_shiro:
       options: []
     pam:
       options:
-    service: 'sshd'
+        service: 'sshd'
     zeppelin_hub:
       options:
         url: 'https://www.zeppelinhub.com'

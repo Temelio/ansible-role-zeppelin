@@ -14,29 +14,29 @@
 {% if zeppelin_shiro.auth_realm == 'active_directory' %}
 # Active directory authentication
 activeDirectoryRealm = org.apache.zeppelin.server.ActiveDirectoryGroupRealm
-{% for option_item in zeppelin_shiro.active_directory_options %}
-activeDirectoryRealm.{{ option_item.name }} = "{{ option_item.value }}"
+{% for option_item in zeppelin_shiro.realms.active_directory.options %}
+activeDirectoryRealm.{{ option_item.name }} = {{ option_item.value }}
 {% endfor %}
 {% endif %}
 
 {% if zeppelin_shiro.auth_realm == 'ldap' %}
 # LDAP authentication
 ldapRealm = org.apache.zeppelin.realm.LdapGroupRealm
-{% for option_item in zeppelin_shiro.ldap_options %}
-activeDirectoryRealm.{{ option_item.name }} = "{{ option_item.value }}"
+{% for option_item in zeppelin_shiro.realms.ldap.options %}
+ldapRealm.{{ option_item.name }} = {{ option_item.value }}
 {% endfor %}
 {% endif %}
 
 {% if zeppelin_shiro.auth_realm == 'pam' %}
 # PAM authentication
 pamRealm=org.apache.zeppelin.realm.PamRealm
-pamRealm.service={{ zeppelin_shiro.pam_options.service }}
+pamRealm.service = {{ zeppelin_shiro.realms.pam.options.service }}
 {% endif %}
 
 {% if zeppelin_shiro.auth_realm == 'zeppelin_hub' %}
 # ZeppelinHub authentication
 zeppelinHubRealm = org.apache.zeppelin.realm.ZeppelinHubRealm
-zeppelinHubRealm.zeppelinhubUrl = {{ zeppelin_shiro.zeppelin_hub_options.url }}
+zeppelinHubRealm.zeppelinhubUrl = {{ zeppelin_shiro.realms.zeppelin_hub.options.url }}
 securityManager.realms = $zeppelinHubRealm
 {% endif %}
 
