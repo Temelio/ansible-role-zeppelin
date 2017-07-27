@@ -121,19 +121,33 @@ zeppelin_shiro_enabled: False
 
 _zeppelin_shiro:
   auth_realm: None
-  global_session_timeout: 86400000
+  cache_manager:
+    class: 'org.apache.shiro.cache.MemoryConstrainedCacheManager'
   realms:
     active_directory:
+      class: 'org.apache.zeppelin.server.ActiveDirectoryGroupRealm'
       options: []
     ldap:
+      class: 'org.apache.zeppelin.realm.LdapGroupRealm'
       options: []
     pam:
+      class: 'org.apache.zeppelin.realm.PamRealm'
       options:
         service: 'sshd'
     zeppelin_hub:
+      class: 'org.apache.zeppelin.realm.ZeppelinHubRealm'
       options:
         url: 'https://www.zeppelinhub.com'
   roles: []
+  security_manager:
+    cache_manager:
+      class: '$cacheManager'
+    realms: ''
+    session_manager:
+      class: '$sessionManager'
+      global_session_timeout: 86400000
+  session_manager:
+    class: 'org.apache.shiro.web.session.mgt.DefaultWebSessionManager'
   user_caching: False
   users: []
   urls:

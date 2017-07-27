@@ -13,7 +13,7 @@
 [main]
 {% if zeppelin_shiro.auth_realm == 'active_directory' %}
 # Active directory authentication
-activeDirectoryRealm = org.apache.zeppelin.server.ActiveDirectoryGroupRealm
+activeDirectoryRealm = {{ zeppelin_shiro.realms.active_directory.class }}
 {% for option_item in zeppelin_shiro.realms.active_directory.options %}
 activeDirectoryRealm.{{ option_item.name }} = {{ option_item.value }}
 {% endfor %}
@@ -21,7 +21,7 @@ activeDirectoryRealm.{{ option_item.name }} = {{ option_item.value }}
 
 {% if zeppelin_shiro.auth_realm == 'ldap' %}
 # LDAP authentication
-ldapRealm = org.apache.zeppelin.realm.LdapGroupRealm
+ldapRealm = {{ zeppelin_shiro.realms.ldap.class }}
 {% for option_item in zeppelin_shiro.realms.ldap.options %}
 ldapRealm.{{ option_item.name }} = {{ option_item.value }}
 {% endfor %}
@@ -29,26 +29,28 @@ ldapRealm.{{ option_item.name }} = {{ option_item.value }}
 
 {% if zeppelin_shiro.auth_realm == 'pam' %}
 # PAM authentication
-pamRealm=org.apache.zeppelin.realm.PamRealm
+pamRealm = {{ zeppelin_shiro.realms.pam.class }}
 pamRealm.service = {{ zeppelin_shiro.realms.pam.options.service }}
 {% endif %}
 
 {% if zeppelin_shiro.auth_realm == 'zeppelin_hub' %}
 # ZeppelinHub authentication
-zeppelinHubRealm = org.apache.zeppelin.realm.ZeppelinHubRealm
+zeppelinHubRealm = {{ zeppelin_shiro.realms.zeppelin_hub.class }}
 zeppelinHubRealm.zeppelinhubUrl = {{ zeppelin_shiro.realms.zeppelin_hub.options.url }}
-securityManager.realms = $zeppelinHubRealm
 {% endif %}
 
-sessionManager = org.apache.shiro.web.session.mgt.DefaultWebSessionManager
+sessionManager = {{ zeppelin_shiro.session_manager.class }}
 
 {% if zeppelin_shiro.user_caching %}
-cacheManager = org.apache.shiro.cache.MemoryConstrainedCacheManager
-securityManager.cacheManager = $cacheManager
+cacheManager = {{ zeppelin_shiro.cache_manager.class }}
+securityManager.cacheManager = {{ zeppelin_shiro.security_manager.cache_manager.class }}
 {% endif %}
 
-securityManager.sessionManager = $sessionManager
-securityManager.sessionManager.globalSessionTimeout = {{ zeppelin_shiro.global_session_timeout }}
+{% if zeppelin_shiro.security_manager.realms != '' %}
+securityManager.realms = {{ zeppelin_shiro.security_manager.realms }}
+{% endif %}
+securityManager.sessionManager = {{ zeppelin_shiro.security_manager.session_manager.class }}
+securityManager.sessionManager.globalSessionTimeout = {{ zeppelin_shiro.session_manager.global_session_timeout }}
 shiro.loginUrl = /api/login
 
 
