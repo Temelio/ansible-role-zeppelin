@@ -2,8 +2,8 @@
 
 # Role tests
 
-- hosts: 'zeppelin-vagrant-xenial64:zeppelin-docker-xenial'
-  name: 'Install tests prerequisites'
+- name: 'Converge | Prerequisites tasks'
+  hosts: 'zeppelin-docker-xenial'
   gather_facts: False
   tasks:
     - name: 'PREREQUISITES | APT | Do an apt-get update'
@@ -16,9 +16,15 @@
       changed_when: False
 
 
-- hosts: 'all'
+- name: 'Converge | Main tasks'
+  hosts: 'all'
+  pre_tasks:
+    - name: 'PREREQUISITES | APT | Install net-tools'
+      become: True
+      apt:
+        name: 'net-tools'
+      changed_when: False
+      when: "ansible_os_family | lower == 'debian'"
   roles:
     - role: 'infOpen.openjdk-jdk'
-    - role: "{{ role_name }}"
-  vars:
-    role_name: "{{ playbook_dir | basename }}"
+    - role: "ansible-role-zeppelin"
