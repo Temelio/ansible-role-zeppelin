@@ -128,4 +128,5 @@ def test_socket(host):
     Test socket
     """
 
-    assert host.socket('tcp://:::8080').is_listening
+    assert host.socket('tcp://:::8080').is_listening \
+        or host.socket('tcp://0.0.0.0:8080').is_listening
