@@ -16,5 +16,8 @@ ExecStart={{ zeppelin_root_dir.path }}/current/bin/zeppelin-daemon.sh upstart
 Restart={{ zeppelin_service_systemd.restart }}
 RestartSec={{ zeppelin_service_systemd.restart_sec }}
 
+# Relates to https://github.com/Temelio/ansible-role-zeppelin/issues/42
+PermissionsStartOnly=true
+
 [Install]
 WantedBy={{zeppelin_service_systemd.wanted_by }}
