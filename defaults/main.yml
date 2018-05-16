@@ -3,7 +3,7 @@
 # Defaults vars file for zeppelin role
 
 # Installation variables
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Package variables
 zeppelin_version: '0.7.2'
@@ -41,7 +41,7 @@ zeppelin_user:
 
 
 # Service management
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 zeppelin_service_description: 'Apache Zeppelin'
 zeppelin_service_name: 'zeppelin'
@@ -56,7 +56,7 @@ zeppelin_service_systemd:
 
 
 # Configuration - zeppelin-env.sh
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 zeppelin_environment_items:
   - name: 'ZEPPELIN_LOG_DIR'
@@ -66,7 +66,7 @@ zeppelin_environment_items:
 
 
 # Configuration - shiro.ini
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Possible values for auth_realm:
 #   - active_directory
@@ -113,7 +113,7 @@ _zeppelin_shiro:
 
 
 # Configuration - zeppelin-site.xml
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Storage management
 # Possible_choices:
